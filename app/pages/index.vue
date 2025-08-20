@@ -1,3 +1,3 @@
 <template>
-  <div>pages/app</div>
+  <div>首页</div>
 </template>
