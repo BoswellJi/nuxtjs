@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: false },
-  modules: ['@element-plus/nuxt', '@vant/nuxt', '@nuxt/eslint'],
+  modules: ['@element-plus/nuxt', '@vant/nuxt', '@nuxt/eslint', '@prisma/nuxt'],
   css: ['./app/assets/css/main.css'],
   devServer: {
     port: 8080,
