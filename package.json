@@ -14,7 +14,7 @@
     "@element-plus/nuxt": "^1.1.4",
     "@nuxt/eslint": "^1.8.0",
     "@prisma/client": "6.14.0",
-    "@prisma/nuxt": "^0.3.0",
+    "@prisma/nuxt": "0.3.0",
     "@tailwindcss/vite": "^4.1.11",
     "@vant/nuxt": "^1.0.7",
     "element-plus": "^2.10.5",

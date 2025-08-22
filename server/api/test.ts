@@ -1,11 +1,9 @@
-import { PrismaClient } from '../generated/prisma-client';
-
-const prisma = new PrismaClient();
+import prisma from '~/lib/prisma';
 
 export default defineEventHandler(async event => {
   const users = await prisma.user.create({
     data: {
-      email: 'newus111er@example.com',
+      email: 'newus111444er@example.com',
       name: 'New User',
     },
   });
