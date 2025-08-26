@@ -1,15 +1,515 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-  output   = "../app/generated/prisma"
+  output   = "../lib/prisma/generated"
 }
 
 datasource db {
   provider = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  url      = env("DATABASE_URL")
 }
 
- 
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model authz_menu {
+  menu_id        BigInt   @id @default(autoincrement())
+  menu_type      Int      @default(0)
+  menu_key       String   @default("") @db.VarChar(50)
+  menu_name      String   @default("") @db.VarChar(50)
+  menu_sort      Int      @default(0)
+  last_menu_id   BigInt   @default(0)
+  remark         String   @default("") @db.VarChar(500)
+  valid          Int      @default(1)
+  create_user_id BigInt   @default(0)
+  create_user    String   @default("") @db.VarChar(20)
+  update_user_id BigInt   @default(0)
+  update_user    String   @default("") @db.VarChar(20)
+  create_time    DateTime @default(now()) @db.DateTime(0)
+  update_time    DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model authz_operate_log {
+  id                BigInt   @id @default(autoincrement())
+  operate_module    Int      @default(0)
+  operate_type      Int      @default(0)
+  operate_type_name String   @default("") @db.VarChar(20)
+  operate_content   String   @default("") @db.VarChar(500)
+  create_user_id    BigInt   @default(0)
+  create_user       String   @default("") @db.VarChar(20)
+  create_time       DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model authz_role {
+  role_id        BigInt   @id @default(autoincrement())
+  role_name      String   @default("") @db.VarChar(50)
+  valid          Int      @default(1)
+  create_user_id BigInt   @default(0)
+  create_user    String   @default("") @db.VarChar(20)
+  update_user_id BigInt   @default(0)
+  update_user    String   @default("") @db.VarChar(20)
+  create_time    DateTime @default(now()) @db.DateTime(0)
+  update_time    DateTime @default(now()) @db.DateTime(0)
+  role_type      String   @default("A") @db.VarChar(10)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model authz_role_menu_relation {
+  id             BigInt   @id @default(autoincrement())
+  role_id        BigInt   @default(0)
+  menu_id        BigInt   @default(0)
+  valid          Int      @default(1)
+  create_user_id BigInt   @default(0)
+  create_user    String   @default("") @db.VarChar(20)
+  update_user_id BigInt   @default(0)
+  update_user    String   @default("") @db.VarChar(20)
+  create_time    DateTime @default(now()) @db.DateTime(0)
+  update_time    DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model authz_user_role_relation {
+  id             BigInt   @id @default(autoincrement())
+  role_id        BigInt   @default(0)
+  user_id        BigInt   @default(0)
+  valid          Int      @default(1)
+  create_user_id BigInt   @default(0)
+  create_user    String   @default("") @db.VarChar(20)
+  update_user_id BigInt   @default(0)
+  update_user    String   @default("") @db.VarChar(20)
+  create_time    DateTime @default(now()) @db.DateTime(0)
+  update_time    DateTime @default(now()) @db.DateTime(0)
+  group_leader   Int      @default(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_account_info {
+  id                        BigInt   @id @default(autoincrement())
+  cust_id                   BigInt
+  payment_way_id            String   @default("") @db.VarChar(10)
+  payment_way_name          String   @default("") @db.VarChar(50)
+  account_type              Int      @default(0)
+  account_name              String   @default("") @db.VarChar(100)
+  account_no                String   @default("") @db.VarChar(50)
+  bank_name                 String   @default("") @db.VarChar(50)
+  bank_branch_id            Int      @default(0)
+  bank_branch_name          String   @default("") @db.VarChar(50)
+  bank_country_id           Int      @default(0)
+  bank_country_name         String   @default("") @db.VarChar(30)
+  bank_province_id          Int      @default(0)
+  bank_province_name        String   @default("") @db.VarChar(30)
+  bank_city_id              Int      @default(0)
+  bank_city_name            String   @default("") @db.VarChar(30)
+  bank_address              String   @default("") @db.VarChar(100)
+  currency_code             String   @default("") @db.VarChar(10)
+  currency_name             String   @default("") @db.VarChar(20)
+  cost_bearing_id           String   @default("") @db.VarChar(10)
+  cost_bearing_name         String   @default("") @db.VarChar(50)
+  swift_code                String   @default("") @db.VarChar(50)
+  receive_account_type_id   String   @default("") @db.VarChar(10)
+  receive_account_type_name String   @default("") @db.VarChar(30)
+  business_register_code    String   @default("") @db.VarChar(50)
+  liquidation_code          String   @default("") @db.VarChar(50)
+  create_time               DateTime @default(now()) @db.DateTime(0)
+  update_time               DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_base_info {
+  cust_id                BigInt   @id @default(autoincrement())
+  biz_line_code          String   @default("") @db.VarChar(10)
+  biz_line_name          String   @default("") @db.VarChar(30)
+  cust_name              String   @default("") @db.VarChar(60)
+  cust_alias             String   @default("") @db.VarChar(60)
+  credit_code            String   @default("") @db.VarChar(60)
+  cust_grade_id          Int      @default(0)
+  cust_grade_name        String   @default("") @db.VarChar(20)
+  cust_type_id           String   @default("") @db.VarChar(10)
+  cust_type_name         String   @default("") @db.VarChar(30)
+  country_id             Int      @default(0)
+  country_name           String   @default("") @db.VarChar(30)
+  province_id            Int      @default(0)
+  province_name          String   @default("") @db.VarChar(30)
+  city_id                Int      @default(0)
+  city_name              String   @default("") @db.VarChar(30)
+  address                String   @default("") @db.VarChar(100)
+  business_main          String   @default("") @db.VarChar(200)
+  business_scope         String   @default("") @db.VarChar(500)
+  valid                  Int      @default(1)
+  create_user_id         BigInt   @default(0)
+  create_user            String   @default("") @db.VarChar(20)
+  update_user_id         BigInt   @default(0)
+  update_user            String   @default("") @db.VarChar(20)
+  create_time            DateTime @default(now()) @db.DateTime(0)
+  update_time            DateTime @default(now()) @db.DateTime(0)
+  cust_no                String   @default("") @db.VarChar(60)
+  merchant_serial_no     String   @default("") @db.VarChar(100)
+  old_merchant_serial_no String   @default("") @db.VarChar(100)
+  official_link          String   @default("") @db.VarChar(100)
+  supplier_serial_no     String   @default("") @db.VarChar(100)
+  dist_agency_id         BigInt   @default(0)
+  golden_key_sync_flag   Int      @default(0)
+  golden_key_sync_time   DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+  dist_sync_flag         Int      @default(0)
+  dist_sync_time         DateTime @default(dbgenerated("'1900-01-01 00:00:00'")) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_cont_info {
+  id          BigInt   @id @default(autoincrement())
+  cust_id     BigInt
+  cont_name   String   @default("") @db.VarChar(20)
+  mobile      String   @default("") @db.VarChar(50)
+  email       String   @default("") @db.VarChar(20)
+  sex         Int      @default(0)
+  resp_id     String   @default("") @db.VarChar(30)
+  resp_name   String   @default("") @db.VarChar(30)
+  valid       Int      @default(1)
+  create_time DateTime @default(now()) @db.DateTime(0)
+  update_time DateTime @default(now()) @db.DateTime(0)
+  phone       String   @default("") @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_dist_info {
+  id                        BigInt   @id @default(autoincrement())
+  cust_id                   BigInt
+  tc_manager_name           String   @default("") @db.VarChar(30)
+  tc_manager_email          String   @default("") @db.VarChar(50)
+  dist_cooperate_model      String   @default("1") @db.VarChar(10)
+  dist_member_system        String   @default("1") @db.VarChar(10)
+  dist_order_from_id        String   @default("") @db.VarChar(50)
+  dist_cooperate_type_ids   String   @default("") @db.VarChar(100)
+  dist_cooperate_begin_date String   @default("") @db.VarChar(20)
+  dist_cooperate_end_date   String   @default("") @db.VarChar(20)
+  dist_rp_type              String   @default("") @db.VarChar(10)
+  dist_channels_ids         String   @default("") @db.VarChar(100)
+  dist_info_call_type       String   @default("") @db.VarChar(10)
+  dist_product_type         Int      @default(1)
+  create_time               DateTime @default(now()) @db.DateTime(0)
+  update_time               DateTime @default(now()) @db.DateTime(0)
+  tc_manager_job_number     String   @default("") @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_dist_relation {
+  id                 BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  cust_id            BigInt   @default(0)
+  cust_name          String   @default("") @db.VarChar(60)
+  dist_order_from_id String   @default("0") @db.VarChar(20)
+  create_time        DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_follow_record {
+  id             BigInt   @id @default(autoincrement())
+  cust_id        BigInt   @default(0) @db.UnsignedBigInt
+  strategy_name  String   @default("") @db.VarChar(50)
+  begin_date     String   @default("") @db.VarChar(30)
+  end_date       String   @default("") @db.VarChar(30)
+  remark         String   @default("") @db.VarChar(500)
+  valid          Int      @default(1)
+  create_user_id BigInt   @default(0)
+  create_user    String   @default("") @db.VarChar(20)
+  update_user_id BigInt   @default(0)
+  update_user    String   @default("") @db.VarChar(20)
+  create_time    DateTime @default(now()) @db.DateTime(0)
+  update_time    DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_operate_log {
+  id                BigInt   @id @default(autoincrement())
+  cust_id           BigInt
+  operate_module    Int      @default(1)
+  operate_type      Int      @default(1)
+  operate_type_desc String   @default("") @db.VarChar(50)
+  operate_content   String   @default("") @db.VarChar(1000)
+  create_user_id    BigInt   @default(0)
+  create_user       String   @default("") @db.VarChar(20)
+  create_time       DateTime @default(now()) @db.DateTime(0)
+  operate_title     String   @default("") @db.VarChar(200)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_qual_info {
+  id              BigInt   @id @default(autoincrement())
+  cust_id         BigInt
+  qual_type_id    String   @default("") @db.VarChar(50)
+  qual_type_name  String   @default("") @db.VarChar(50)
+  qual_begin_date String   @default("") @db.VarChar(20)
+  qual_end_date   String   @default("") @db.VarChar(20)
+  att_url         String   @default("") @db.VarChar(100)
+  att_file_type   String   @default("") @db.VarChar(20)
+  valid           Int      @default(1)
+  create_time     DateTime @default(now()) @db.DateTime(0)
+  update_time     DateTime @default(now()) @db.DateTime(0)
+  att_id          String   @default("") @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_sign_info {
+  id                 BigInt   @id @default(autoincrement())
+  cust_id            BigInt
+  collab_brand       String   @default("") @db.VarChar(20)
+  sign_subject_id    String   @default("") @db.VarChar(20)
+  sign_subject_name  String   @default("") @db.VarChar(50)
+  sign_project       String   @default("") @db.VarChar(100)
+  sign_tax_rate      String   @default("") @db.VarChar(20)
+  sign_is_direct     Int      @default(0)
+  sign_required_cont Int      @default(0)
+  create_time        DateTime @default(now()) @db.DateTime(0)
+  update_time        DateTime @default(now()) @db.DateTime(0)
+  sign_project_id    String   @default("") @db.VarChar(50)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_visit {
+  visit_id         BigInt   @id @default(autoincrement())
+  cust_id          BigInt   @default(0)
+  visit_type       Int      @default(1)
+  visit_model      Int      @default(1)
+  contacts         String   @default("") @db.VarChar(30)
+  mobile           String   @default("") @db.VarChar(30)
+  plan_visit_time  String   @default("") @db.VarChar(30)
+  remind_time      String   @default("") @db.VarChar(30)
+  visit_info       String   @default("") @db.VarChar(2000)
+  valid            Int      @default(1)
+  create_user_id   BigInt   @default(0)
+  create_user      String   @default("") @db.VarChar(20)
+  update_user_id   BigInt   @default(0)
+  update_user      String   @default("") @db.VarChar(20)
+  create_time      DateTime @default(now()) @db.DateTime(0)
+  update_time      DateTime @default(now()) @db.DateTime(0)
+  visit_time       String   @default("") @db.VarChar(30)
+  follow_info      String   @default("") @db.VarChar(2000)
+  next_follow_time String   @default("") @db.VarChar(30)
+  next_remind_time String   @default("") @db.VarChar(30)
+  image_urls       String   @default("") @db.VarChar(300)
+  att_urls         String   @default("") @db.VarChar(300)
+  flag             Int      @default(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_visit_comment {
+  id             BigInt   @id @default(autoincrement())
+  visit_id       BigInt   @default(0)
+  cust_id        BigInt   @default(0)
+  comment        String   @default("") @db.VarChar(2000)
+  valid          Int      @default(1)
+  create_user_id BigInt   @default(0)
+  create_user    String   @default("") @db.VarChar(20)
+  create_time    DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model cust_visit_todo {
+  id              BigInt   @id @default(autoincrement())
+  visit_id        BigInt   @default(0)
+  todo_desc       String   @default("") @db.VarChar(500)
+  follower        String   @default("") @db.VarChar(20)
+  follow_time     String   @default("") @db.VarChar(20)
+  todo_conclusion String   @default("") @db.VarChar(500)
+  flag            Int      @default(0)
+  create_user_id  BigInt   @default(0)
+  create_user     String   @default("") @db.VarChar(20)
+  create_time     DateTime @default(now()) @db.DateTime(0)
+  update_user_id  BigInt   @default(0)
+  update_user     String   @default("") @db.VarChar(20)
+  update_time     DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model enterprise_base_info {
+  id                   BigInt   @id @default(autoincrement())
+  enterprise_name      String   @default("") @db.VarChar(80)
+  enterprise_id        BigInt   @default(0)
+  relation_project_ids String   @default("") @db.VarChar(500)
+  relation_cust_nos    String   @default("") @db.VarChar(500)
+  remark               String?  @db.Text
+  create_user          String   @default("") @db.VarChar(20)
+  create_user_id       BigInt   @default(0)
+  update_user          String   @default("") @db.VarChar(20)
+  update_user_id       BigInt   @default(0)
+  create_time          DateTime @default(now()) @db.DateTime(0)
+  update_time          DateTime @default(now()) @db.DateTime(0)
+  biz_line_code        String   @default("") @db.VarChar(10)
+  biz_line_name        String   @default("") @db.VarChar(30)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model enterprise_cust_relation {
+  id              BigInt   @id @default(autoincrement())
+  enterprise_name String   @default("") @db.VarChar(80)
+  enterprise_id   BigInt   @default(0)
+  cust_no         String   @default("") @db.VarChar(20)
+  cust_name       String   @default("") @db.VarChar(80)
+  create_user     String   @default("") @db.VarChar(20)
+  create_user_id  BigInt   @default(0)
+  update_user     String   @default("") @db.VarChar(20)
+  update_user_id  BigInt   @default(0)
+  create_time     DateTime @default(now()) @db.DateTime(0)
+  update_time     DateTime @default(now()) @db.DateTime(0)
+  deleted         Int      @default(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model enterprise_info {
+  id              BigInt   @id @default(autoincrement())
+  enterprise_name String   @default("") @db.VarChar(80)
+  enterprise_id   BigInt   @default(0)
+  biz_line_code   String   @default("") @db.VarChar(10)
+  biz_line_name   String   @default("") @db.VarChar(30)
+  remark          String?  @db.Text
+  create_user     String   @default("") @db.VarChar(20)
+  create_user_id  BigInt   @default(0)
+  update_user     String   @default("") @db.VarChar(20)
+  update_user_id  BigInt   @default(0)
+  create_time     DateTime @default(now()) @db.DateTime(0)
+  update_time     DateTime @default(now()) @db.DateTime(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model enterprise_project_relation {
+  id              BigInt   @id @default(autoincrement())
+  enterprise_name String   @default("") @db.VarChar(80)
+  enterprise_id   BigInt   @default(0)
+  project_id      String   @default("") @db.VarChar(20)
+  project_name    String   @default("") @db.VarChar(80)
+  create_user     String   @default("") @db.VarChar(20)
+  create_user_id  BigInt   @default(0)
+  update_user     String   @default("") @db.VarChar(20)
+  update_user_id  BigInt   @default(0)
+  create_time     DateTime @default(now()) @db.DateTime(0)
+  update_time     DateTime @default(now()) @db.DateTime(0)
+  deleted         Int      @default(0)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model oplog {
+  id               BigInt   @id @default(autoincrement())
+  create_time      DateTime @default(now()) @db.DateTime(0)
+  create_by        String   @default("") @db.VarChar(255)
+  deleted_millis   BigInt   @default(0)
+  update_time      DateTime @default(now()) @db.DateTime(0)
+  update_by        String   @default("") @db.VarChar(255)
+  operator         String   @default("") @db.VarChar(255)
+  operator_user_id BigInt   @default(0)
+  content          String?  @db.Text
+  op_type          String   @default("") @db.VarChar(255)
+  category         String   @default("") @db.VarChar(255)
+  target_desc      String   @default("") @db.VarChar(255)
+  target_id        BigInt   @default(0)
+
+  @@index([category], map: "category")
+  @@index([create_time], map: "create_time")
+  @@index([op_type], map: "op_type")
+  @@index([operator_user_id], map: "operator_user_id")
+  @@index([target_id], map: "target_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model sys_role {
+  id             BigInt   @id @default(autoincrement())
+  create_time    DateTime @default(now()) @db.DateTime(0)
+  create_by      String   @default("") @db.VarChar(255)
+  deleted_millis BigInt   @default(0)
+  update_time    DateTime @default(now()) @db.DateTime(0)
+  update_by      String   @default("") @db.VarChar(255)
+  code           String   @unique(map: "code") @default("") @db.VarChar(255)
+  description    String   @default("") @db.VarChar(255)
+  name           String   @default("") @db.VarChar(255)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model sys_user {
+  id              BigInt   @id @default(autoincrement())
+  create_time     DateTime @default(now()) @db.DateTime(0)
+  create_by       String   @default("") @db.VarChar(255)
+  deleted_millis  BigInt   @default(0)
+  update_time     DateTime @default(now()) @db.DateTime(0)
+  update_by       String   @default("") @db.VarChar(255)
+  dept_id         BigInt   @default(0)
+  dept_name       String   @default("") @db.VarChar(255)
+  email           String   @default("") @db.VarChar(255)
+  employed        Boolean  @default(true)
+  enable          Boolean  @default(true)
+  job_description String   @default("") @db.VarChar(500)
+  job_number      String   @unique(map: "job_number") @default("") @db.VarChar(255)
+  last_login_time DateTime @default(dbgenerated("'1970-01-01 00:00:00'")) @db.DateTime(0)
+  name            String   @default("") @db.VarChar(255)
+  oa_user_id      BigInt   @default(0)
+  phone           String   @default("") @db.VarChar(255)
+  role_id         BigInt   @default(0)
+  business_line   Int      @default(1)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model task {
+  id                  BigInt   @id @default(autoincrement())
+  create_time         DateTime @default(now()) @db.DateTime(0)
+  create_by           String   @default("") @db.VarChar(255)
+  deleted_millis      BigInt   @default(0)
+  update_time         DateTime @default(now()) @db.DateTime(0)
+  update_by           String   @default("") @db.VarChar(255)
+  type                String   @default("") @db.VarChar(20)
+  publish_state       String   @default("") @db.VarChar(20)
+  publish_time        DateTime @default(dbgenerated("'1970-01-01 00:00:00'")) @db.DateTime(0)
+  content             String?  @db.Text
+  title               String   @default("") @db.VarChar(255)
+  priority            String?  @db.Text
+  finish_rate         Int      @default(0)
+  require_finish_time DateTime @default(dbgenerated("'1970-01-01 00:00:00'")) @db.DateTime(0)
+  reply_template      String?  @db.Text
+
+  @@index([create_time], map: "create_time")
+  @@index([priority(length: 100)], map: "priority")
+  @@index([require_finish_time], map: "require_finish_time")
+  @@index([title], map: "title")
+  @@index([type], map: "type")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model task_accept_roles_mapping {
+  task_id     BigInt @default(0)
+  sys_role_id BigInt @default(0)
+
+  @@id([task_id, sys_role_id])
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_task {
+  id               BigInt   @id @default(autoincrement())
+  create_time      DateTime @default(now()) @db.DateTime(0)
+  create_by        String   @default("") @db.VarChar(255)
+  deleted_millis   BigInt   @default(0)
+  update_time      DateTime @default(now()) @db.DateTime(0)
+  update_by        String   @default("") @db.VarChar(255)
+  task_id          BigInt   @default(0)
+  user_id          BigInt   @default(0)
+  finish_state     String   @default("") @db.VarChar(20)
+  finish_time      DateTime @default(dbgenerated("'1970-01-01 00:00:00'")) @db.DateTime(0)
+  text_reply       String?  @db.Text
+  read_flag        Boolean  @default(dbgenerated("b'0'")) @db.Bit(1)
+  last_urging_time BigInt   @default(0)
+
+  @@unique([task_id, user_id], map: "task_id")
+  @@index([create_time], map: "create_time")
+  @@index([finish_state], map: "finish_state")
+  @@index([user_id], map: "user_id")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model user_task_urging_record {
+  id               BigInt @id @default(autoincrement())
+  record_id        String @unique(map: "user_task_urging_record_unique") @default("") @db.VarChar(64)
+  task_id          BigInt @default(0)
+  user_task_id     BigInt @default(0)
+  urging_user_id   String @default("") @db.VarChar(32)
+  urging_user_name String @default("") @db.VarChar(32)
+  urging_type      String @default("") @db.VarChar(32)
+  urging_status    Int    @default(0)
+  urging_time      BigInt @default(0)
+  trigger_time     BigInt @default(0)
+  init_time        BigInt @default(0)
+  job_id           String @default("\"0\"") @db.VarChar(64)
+}

@@ -1,11 +1,7 @@
-import prisma from '~/lib/prisma';
+import prisma from '@@/lib/prisma';
 
-export default defineEventHandler(async event => {
-  const users = await prisma.user.create({
-    data: {
-      email: 'newus111444er@example.com',
-      name: 'New User',
-    },
-  });
-  return users;
+export default defineEventHandler(async () => {
+  return {
+    user: (await prisma.authz_menu.findFirst())?.create_time,
+  };
 });
