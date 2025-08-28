@@ -1,7 +1,16 @@
-import prisma from '@@/lib/prisma';
+import prisma from '@@/server/lib/prisma';
 
 export default defineEventHandler(async () => {
-  return {
-    user: (await prisma.authz_menu.findFirst())?.create_time,
-  };
+  const classList = await prisma.class.findFirst();
+
+  if (classList) {
+    const id = classList.id.toString();
+    return {
+      id: id,
+      name: classList.class_name,
+      created_at: classList.created_at,
+    };
+  }
+
+  return {};
 });

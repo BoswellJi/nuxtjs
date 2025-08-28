@@ -7,9 +7,6 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ['@element-plus/nuxt', '@vant/nuxt', '@nuxt/eslint'],
   css: ['./app/assets/css/main.css'],
-  devServer: {
-    port: 8080,
-  },
   vite: {
     plugins: [tailwindcss()],
   },
