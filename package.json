@@ -8,8 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint .",
-    "start": "set DATABASE_URL=postgresql://postgres.fqyqvxjpdorfwjxqhpzj:FaAulGFcdyfTcgQ2@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres && node .output/server/index.mjs"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.1.4",
